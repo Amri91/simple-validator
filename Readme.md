@@ -8,7 +8,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
 
 ##Installation
 ```javascript
-npm install validator --save
+npm install simple-express-validator
 ```
 
 ##Usage
