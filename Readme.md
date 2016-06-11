@@ -3,8 +3,8 @@
 This provides basic validation middleware, it will help reduce redundancy in the code.
 
 ##Available methods
-- BodyMustHave
-- QueryMustHave
+- bodyMustHave
+- queryMustHave
 
 ##Installation
 ```javascript
