@@ -1,0 +1,23 @@
+{
+  "name": "simple-validator",
+  "version": "0.1.0",
+  "description": "Ready to use validator middleware for express js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "validator",
+    "middleware",
+    "validation",
+    "validate"
+  ],
+  "author": "A Amri",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "repository":{
+    "type": "git",
+    "url":
+  }
+}
