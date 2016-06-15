@@ -41,6 +41,7 @@ function escape(location, params){
         for (var i = 0; i < args.length; i++) {
             req[location][args[i]] = escapeStringRegexp(req[location][args[i]]);
         }
+        return next();
     }
 }
 
