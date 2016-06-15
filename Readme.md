@@ -4,7 +4,15 @@ This provides basic validation middleware, it will help reduce redundancy in the
 
 ##Available methods
 - bodyMustHave
+    Checks if body contains selected params
 - queryMustHave
+    Checks if query contains selected params
+- makeInts
+    Attempts to convert selected params in query/body to integers
+- escapeBody
+    escapes selected params in body
+- escapeQuery
+    escapes selected params in query
 
 ##Installation
 ```javascript

@@ -14,7 +14,9 @@
   ],
   "author": "amri",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "escape-string-regexp": "^1.0.5"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Amri91/simple-validator"
