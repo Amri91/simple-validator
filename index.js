@@ -1,7 +1,10 @@
 /**
  * Created by Amri on 6/11/2016.
  */
-const escapeStringRegexp = require('escape-string-regexp');
+const escapeStringRegexp    = require('escape-string-regexp');
+
+var _                       = require('underscore');
+
 /**
  * Provides basic validation
  * @param {string} validate name of the function in req to be called, e.g. checkBody
@@ -55,8 +58,19 @@ exports.makeInts        = function(params){
         for (var i = 0; i < args.length; i++) {
             req.query[args[i]] = parseInt(req.query[args[i]]);
             req.body[args[i]] = parseInt(req.body[args[i]]);
-            if(isNaN(req.query[args[i]]) && isNaN(req.body[args[i]])) return next(new exports.HTTPError(400, messages.IncorrectArguments));
+            if(isNaN(req.query[args[i]]) && isNaN(req.body[args[i]])) return next(new exports.HTTPError(400, 'Invalid parameter'));
         }
         return next();
     }
+};
+exports.isIn            = function(param, objOrArray){
+    return function(req, res, next){
+        if(_.contains(objOrArray, param)){
+            next();
+        }else next(new exports.HTTPError(400, 'Invalid parameter'));
+    }
+};
+exports.HTTPError       = function(code, message) {
+    this.status = code;
+    this.message = message;
 };

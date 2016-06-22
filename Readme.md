@@ -5,14 +5,25 @@ This provides basic validation middleware, it will help reduce redundancy in the
 ##Available methods
 - bodyMustHave
     Checks if body contains selected params
+    usage: bodyMustHave('password username')
 - queryMustHave
     Checks if query contains selected params
+    usage: queryMustHave('password username')
 - makeInts
     Attempts to convert selected params in query/body to integers
+    usage: makeInts('skip limit')
 - escapeBody
     escapes selected params in body
+    usage: escapeBody('username')
 - escapeQuery
     escapes selected params in query
+    usage: escapeQuery('type')
+- isIn
+    checks if a parameter is in array, useful for enums
+    usage: isIn('NY', ['NY', 'LA'])
+- HTTPError
+    Helper for return error responses/messages
+    usage: isIn('NY', ['NY', 'LA'])
 
 ##Installation
 ```javascript
@@ -30,7 +41,7 @@ app.use(bodyParser.json());
 var expressValidator = require('express-validator');
 app.use(expressValidator());
 
-var bodyMustHave = require('validator1').bodyMustHave;
+var bodyMustHave = require('validator').bodyMustHave;
 
 app.post('/', bodyMustHave('username password'), function(req, res, next){
     // code that uses req.body.username and req.body.password
