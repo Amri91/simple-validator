@@ -5,6 +5,8 @@ const escapeStringRegexp    = require('escape-string-regexp');
 
 var _                       = require('underscore');
 
+var lodash                  = require('lodash');
+
 /**
  * Provides basic validation
  * @param {string} validate name of the function in req to be called, e.g. checkBody
@@ -65,7 +67,7 @@ exports.makeInts        = function(params){
 };
 exports.isIn            = function(param, objOrArray){
     return function(req, res, next){
-        if(_.contains(objOrArray, param)){
+        if(_.contains(objOrArray, lodash.get(req, param))){
             next();
         }else next(new exports.HTTPError(400, 'Invalid parameter'));
     }
