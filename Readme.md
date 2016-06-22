@@ -20,10 +20,10 @@ This provides basic validation middleware, it will help reduce redundancy in the
     usage: escapeQuery('type')
 - isIn
     checks if a parameter is in array, useful for enums
-    usage: isIn('NY', ['NY', 'LA'])
+    usage: isIn('body.NY', ['NY', 'LA'])
+    the function will check req.body.NY
 - HTTPError
     Helper for return error responses/messages
-    usage: isIn('NY', ['NY', 'LA'])
 
 ##Installation
 ```javascript
