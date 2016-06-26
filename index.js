@@ -65,7 +65,7 @@ exports.toInts          = function(params){
         return next();
     }
 };
-exports.in = function(param, objOrArray){
+exports.isIn = function(param, objOrArray){
     return function(req, res, next) {
         var val = lodash.get(req, param);
         if (val) {

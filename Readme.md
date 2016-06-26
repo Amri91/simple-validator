@@ -18,7 +18,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
 - escapeQuery
   * Escapes selected params in query
   * Usage: escapeQuery('type')
-- in
+- isIn
   * Checks if a parameter is in array, useful for enums
   * Usage: isIn('body.NY', ['NY', 'LA']) the function will check req.body.NY
 - inRange
