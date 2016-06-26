@@ -4,29 +4,28 @@ This provides basic validation middleware, it will help reduce redundancy in the
 
 ##Available methods
 - bodyMustHave
-    Checks if body contains selected params
-    usage: bodyMustHave('password username')
+  * Checks if body contains selected params
+  * Usage: bodyMustHave('password username')
 - queryMustHave
-    Checks if query contains selected params
-    usage: queryMustHave('password username')
+  * Checks if query contains selected params
+  * Usage: queryMustHave('password username')
 - toInts
-    Attempts to convert selected params in query/body to integers
-    usage: makeInts('skip limit')
+  * Attempts to convert selected params in query/body to integers
+  * Usage: makeInts('skip limit')
 - escapeBody
-    escapes selected params in body
-    usage: escapeBody('username')
+  * Escapes selected params in body
+  * Usage: escapeBody('username')
 - escapeQuery
-    escapes selected params in query
-    usage: escapeQuery('type')
+  * Escapes selected params in query
+  * Usage: escapeQuery('type')
 - in
-    checks if a parameter is in array, useful for enums
-    usage: isIn('body.NY', ['NY', 'LA'])
-    the function will check req.'body.NY'
+  * Checks if a parameter is in array, useful for enums
+  * Usage: isIn('body.NY', ['NY', 'LA']) the function will check req.body.NY
 - inRange
-    checks if a parameter is between a given [min, max] values
-    usage: inRange('body.age', 20, 22)
+  * Checks if a parameter is between a given [min, max] values
+  * Usage: inRange('query.age', 20, 22) the function will check req.query.age
 - HTTPError
-    Helper for return error responses/messages  
+  * Helper for return error responses/messages
 
 ##Installation
 ```javascript
