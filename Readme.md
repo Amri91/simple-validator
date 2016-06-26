@@ -26,7 +26,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
     checks if a parameter is between a given [min, max] values
     usage: inRange('body.age', 20, 22)
 - HTTPError
-    Helper for return error responses/messages
+    Helper for return error responses/messages  
 
 ##Installation
 ```javascript
