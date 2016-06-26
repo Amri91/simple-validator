@@ -54,24 +54,38 @@ exports.bodyMustHave    = baseValidator.bind(this, 'checkBody');
 exports.queryMustHave   = baseValidator.bind(this, 'checkQuery');
 exports.escapeBody      = escape.bind(this, 'body');
 exports.escapeQuery     = escape.bind(this, 'query');
-exports.makeInts        = function(params){
+exports.toInts          = function(params){
     var args = params.split(' ');
     return function(req, res, next) {
         for (var i = 0; i < args.length; i++) {
             req.query[args[i]] = parseInt(req.query[args[i]]);
             req.body[args[i]] = parseInt(req.body[args[i]]);
-            if(isNaN(req.query[args[i]]) && isNaN(req.body[args[i]])) return next(new exports.HTTPError(400, 'Invalid parameter'));
+            if(isNaN(req.query[args[i]]) && isNaN(req.body[args[i]])) return next(new exports.HTTPError(400, args[i] + ' must be an integer'));
         }
         return next();
     }
 };
-exports.isIn            = function(param, objOrArray){
+exports.in = function(param, objOrArray){
+    return function(req, res, next) {
+        var val = lodash.get(req, param);
+        if (val) {
+            val = val.split(',');
+            if (!Array.isArray(objOrArray)) objOrArray = _.values(objOrArray);
+            if (val.length && !_.difference(val, objOrArray).length) return next();
+        }
+        return next(new exports.HTTPError(400, param + " must be in " + JSON.stringify(objOrArray)));
+    };
+};
+
+exports.inRange = function(param, min, max){
     return function(req, res, next){
-        if(_.contains(objOrArray, lodash.get(req, param))){
+        var val = lodash.get(req, param);
+        if(val <= max && val >= min){
             next();
-        }else next(new exports.HTTPError(400, 'Invalid parameter'));
+        }else next(new exports.HTTPError(400, param + " must be between " + min + " & " + max));
     }
 };
+
 exports.HTTPError       = function(code, message) {
     this.status = code;
     this.message = message;

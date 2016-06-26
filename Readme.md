@@ -9,7 +9,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
 - queryMustHave
     Checks if query contains selected params
     usage: queryMustHave('password username')
-- makeInts
+- toInts
     Attempts to convert selected params in query/body to integers
     usage: makeInts('skip limit')
 - escapeBody
@@ -18,10 +18,13 @@ This provides basic validation middleware, it will help reduce redundancy in the
 - escapeQuery
     escapes selected params in query
     usage: escapeQuery('type')
-- isIn
+- in
     checks if a parameter is in array, useful for enums
     usage: isIn('body.NY', ['NY', 'LA'])
-    the function will check req.body.NY
+    the function will check req.'body.NY'
+- inRange
+    checks if a parameter is between a given [min, max] values
+    usage: inRange('body.age', 20, 22)
 - HTTPError
     Helper for return error responses/messages
 
