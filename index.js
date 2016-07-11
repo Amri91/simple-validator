@@ -65,7 +65,7 @@ exports.toInts          = function(params){
         return next();
     }
 };
-exports.isIn = function(param, objOrArray){
+exports.isIn = function(param, objOrArray, message){
     return function(req, res, next) {
         var val = lodash.get(req, param);
         if (val) {
@@ -73,7 +73,7 @@ exports.isIn = function(param, objOrArray){
             if (!Array.isArray(objOrArray)) objOrArray = _.values(objOrArray);
             if (val.length && !_.difference(val, objOrArray).length) return next();
         }
-        return next(new exports.HTTPError(400, param + " must be in " + JSON.stringify(objOrArray)));
+        return next(new exports.HTTPError(400, message || param + " must be in " + JSON.stringify(objOrArray)));
     };
 };
 

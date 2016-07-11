@@ -21,6 +21,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
 - isIn
   * Checks if a parameter is in array, useful for enums
   * Usage: isIn('body.NY', ['NY', 'LA']) the function will check req.body.NY
+  * You can add a message in the third optional parameter, isIn isIn('body.NY', ['NY', 'LA'], 'City is not supported')
 - inRange
   * Checks if a parameter is between a given [min, max] values
   * Usage: inRange('query.age', 20, 22) the function will check req.query.age
