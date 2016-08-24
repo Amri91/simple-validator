@@ -25,6 +25,10 @@ This provides basic validation middleware, it will help reduce redundancy in the
 - inRange
   * Checks if a parameter is between a given [min, max] values
   * Usage: inRange('query.age', 20, 22) the function will check req.query.age
+- objectifyRequestData
+  * Gets the properties mentioned in the given params from req.body, req.query, and req.params and dumps them in req.data
+  * Usage: objectifyRequestData('username password email') the function will get: username, password, and email, from req.body, req.query, req.params, and copy them to req.data.
+  * If one of the given params is found in more or less one of the following: req.body, req.query, req.params, the middleware will call next(err).
 - HTTPError
   * Helper for return error responses/messages
 
