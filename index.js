@@ -50,6 +50,55 @@ function escape(location, params){
     }
 }
 
+/**
+ * Objectifies request data, by getting the properties mentioned in params from req.body, req.query, and req.params
+ * into one place: req.data.
+ * @param {String} params properites that will be included in req.data. e.g. 'username email password'.
+ * @returns {Function} middleware(req, res, next)
+ */
+exports.objectifyRequestData       = function(params){
+    //Get all params.
+    var args = params.split(' ');
+
+    //Return middleware.
+    return function(req, res, next){
+        //Objects inside req, that the function will search in for the given params.
+        var objectsToLookIn = ['body','query', 'params'];
+
+        //Initialize req.data.
+        req.data = {};
+
+        //Loop for all params.
+        for(var i = 0 ; i < args.length; i++){
+            //Declare value.
+            var value = null;
+
+            //Loop through all objects: body, query, params.
+            for(var j = 0 ; j < objectsToLookIn.length ; j++){
+                //Search for the value in all sub objects inside req.
+                var curr = lodash.get(req, objectsToLookIn[j] + '.' + args[i]);
+
+                //If a value is found.
+                if(curr) {
+                    //If there was a value found in another subobject, throw an error.
+                    if(value)
+                        return next(new exports.HTTPError(400, args[i] + ' exists in more than one object'));
+                    //Assign the found value to the value variable.
+                    value = curr;
+                }
+            }
+            //If no value was found for the current key, throw an error.
+            if(!value)
+                return next(new exports.HTTPError(400, args[i] + ' is not found anywhere'));
+
+            //Add a new key, value pair for the found value.
+            req.data[args[i]] = value;
+        }
+        next();
+    }
+};
+
+
 exports.bodyMustHave    = baseValidator.bind(this, 'checkBody');
 exports.queryMustHave   = baseValidator.bind(this, 'checkQuery');
 exports.escapeBody      = escape.bind(this, 'body');
