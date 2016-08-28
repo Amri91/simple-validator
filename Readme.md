@@ -28,7 +28,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
 - objectifyRequestData
   * Gets the properties mentioned in the given params from req.body, req.query, and req.params and dumps them in req.data
   * Usage: objectifyRequestData('username password email') the function will get: username, password, and email, from req.body, req.query, req.params, and copy them to req.data.
-  * If one of the given params is found in more or less one of the following: req.body, req.query, req.params, the middleware will call next(err).
+  * If one of the given params is found in multiple locations of the following: req.body, req.query, req.params, the middleware will call next(err).
 - HTTPError
   * Helper for return error responses/messages
 
