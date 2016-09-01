@@ -11,7 +11,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
   * Usage: queryMustHave('password username')
 - toInts
   * Attempts to convert selected params in query/body to integers
-  * Usage: makeInts('skip limit')
+  * Usage: toInts('skip limit')
 - escapeBody
   * Escapes selected params in body
   * Usage: escapeBody('username')
@@ -27,8 +27,10 @@ This provides basic validation middleware, it will help reduce redundancy in the
   * Usage: inRange('query.age', 20, 22) the function will check req.query.age
 - objectifyRequestData
   * Gets the properties mentioned in the given params from req.body, req.query, and req.params and dumps them in req.data
-  * Usage: objectifyRequestData('username password email') the function will get: username, password, and email, from req.body, req.query, req.params, and copy them to req.data.
+  * Usage: objectifyRequestData('username password email', false) the function will get: username, password, and email, from req.body, req.query, req.params, and copy them to req.data.
+  * the second field is optional, it defaults to false. If the second parameter was true, all the params must exist, otherwise next(err) will be called.
   * If one of the given params is found in multiple locations of the following: req.body, req.query, req.params, the middleware will call next(err).
+  *
 - HTTPError
   * Helper for return error responses/messages
 

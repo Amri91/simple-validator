@@ -54,9 +54,10 @@ function escape(location, params){
  * Objectifies request data, by getting the properties mentioned in params from req.body, req.query, and req.params
  * into one place: req.data.
  * @param {String} params properites that will be included in req.data. e.g. 'username email password'.
+ * @param {Boolean} [areParamsRequired=false] optional field, specifies whether the params are required or not, if set to true, the method will throw an exception if a param is missing
  * @returns {Function} middleware(req, res, next)
  */
-exports.objectifyRequestData       = function(params){
+exports.objectifyRequestData       = function(params, areParamsRequired){
     //Get all params.
     var args = params.split(' ');
 
@@ -88,8 +89,11 @@ exports.objectifyRequestData       = function(params){
                 }
             }
 
+            //If no value was found for the current key, throw an error.
+            if(areParamsRequired && !value)
+                return next(new exports.HTTPError(400, args[i] + ' is not found anywhere'));
             //Add a new key, value pair for the found value.
-            if(value)
+            else
                 req.data[args[i]] = value;
         }
         next();
