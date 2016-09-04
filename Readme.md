@@ -29,7 +29,7 @@ This provides basic validation middleware, it will help reduce redundancy in the
   * Gets the properties mentioned in the given params from req.body, req.query, and req.params and dumps them in req.data
   * Usage: objectifyRequestData('username:true password:t email') the function will get: username, password, and email, from req.body, req.query, req.params, and copy them to req.data. If the email is not found, the middleware will pass and no error will be thrown. However, if the username or password were not found, the middlware will throw an error, because both of them are marked as required.
   * If one of the given params is found in multiple locations of the following: req.body, req.query, req.params, the middleware will call next(err).
-  * You can specify whether each of the arguments are required or not by concatenating the argument name with a colon followed by either ('true', 't') to mark it as required, otherwise the argument is assumed to be not required. 
+  * You can specify whether each of the arguments are required or not by concatenating the argument name with a colon followed by either ('true', 't') to mark it as required, otherwise the argument is assumed to be not required.
 - HTTPError
   * Helper for return error responses/messages
 

@@ -56,7 +56,7 @@ function escape(location, params){
  * @param {String} params properites that will be included in req.data. e.g. 'username email password'.
  * @returns {Function} middleware(req, res, next)
  */
-exports.objectifyRequestData       = function(params){
+exports.objectifyRequestData       = function(params, areParamsRequired){
     //Get all params.
     var args = params.split(' ');
 
@@ -98,7 +98,7 @@ exports.objectifyRequestData       = function(params){
                 req.data[field] = value;
             //Check if the field is not found and is required.
             else if(required)
-                return next(new exports.HTTPError(400, field + ' is not found anywhere'));
+                return next(new exports.HTTPError(400, 'Required field: "' + args[i] + '" is not found anywhere'));
         }
         next();
     }
