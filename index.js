@@ -66,8 +66,8 @@ exports.objectifyRequestData       = function(params, areParamsRequired){
         //Objects inside req, that the function will search in for the given params.
         var objectsToLookIn = ['body','query', 'params'];
 
-        //Initialize req.data.
-        req.data = {};
+        //Initialize req.data
+        req.data = req.data || {};
 
         //Loop for all params.
         for(var i = 0 ; i < args.length; i++){
