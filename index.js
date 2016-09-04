@@ -88,13 +88,10 @@ exports.objectifyRequestData       = function(params, areParamsRequired){
                     value = curr;
                 }
             }
-
-            //If no value was found for the current key, throw an error.
-            if(areParamsRequired && !value)
-                return next(new exports.HTTPError(400, args[i] + ' is not found anywhere'));
             //Add a new key, value pair for the found value.
-            else
-                req.data[args[i]] = value;
+            if(value) req.data[args[i]] = value;
+            //If no value was found for the current key, throw an error.
+            else if(areParamsRequired) return next(new exports.HTTPError(400, args[i] + ' is not found anywhere'));
         }
         next();
     }
