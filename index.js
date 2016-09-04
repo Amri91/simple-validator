@@ -54,6 +54,7 @@ function escape(location, params){
  * Objectifies request data, by getting the properties mentioned in params from req.body, req.query, and req.params
  * into one place: req.data.
  * @param {String} params properites that will be included in req.data. e.g. 'username email password'.
+ * @param {Boolean} [areParamsRequired=false] optional field, specifies whether the params are required or not, if set to true, the method will throw an exception if a param is missing
  * @returns {Function} middleware(req, res, next)
  */
 exports.objectifyRequestData       = function(params, areParamsRequired){
@@ -70,35 +71,27 @@ exports.objectifyRequestData       = function(params, areParamsRequired){
 
         //Loop for all params.
         for(var i = 0 ; i < args.length; i++){
-            //Split the arg.
-            var splitArg = lodash.split(args[i], ':');
-            //Check for required.
-            var field       = splitArg[0];
-            var required    = splitArg[1] === 'true' || splitArg[1] === 't';
-
             //Declare value.
             var value = null;
 
             //Loop through all objects: body, query, params.
             for(var j = 0 ; j < objectsToLookIn.length ; j++){
                 //Search for the value in all sub objects inside req.
-                var curr = lodash.get(req, objectsToLookIn[j] + '.' + field);
+                var curr = lodash.get(req, objectsToLookIn[j] + '.' + args[i]);
 
                 //If a value is found.
                 if(curr) {
                     //If there was a value found in another subobject, throw an error.
                     if(value)
-                        return next(new exports.HTTPError(400, field + ' exists in more than one object'));
+                        return next(new exports.HTTPError(400, args[i] + ' exists in more than one object'));
                     //Assign the found value to the value variable.
                     value = curr;
                 }
             }
             //Add a new key, value pair for the found value.
-            if(value)
-                req.data[field] = value;
-            //Check if the field is not found and is required.
-            else if(required)
-                return next(new exports.HTTPError(400, 'Required field: "' + args[i] + '" is not found anywhere'));
+            if(value) req.data[args[i]] = value;
+            //If no value was found for the current key, throw an error.
+            else if(areParamsRequired) return next(new exports.HTTPError(400, args[i] + ' is not found anywhere'));
         }
         next();
     }
