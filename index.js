@@ -70,27 +70,35 @@ exports.objectifyRequestData       = function(params){
 
         //Loop for all params.
         for(var i = 0 ; i < args.length; i++){
+            //Split the arg.
+            var splitArg = lodash.split(args[i], ':');
+            //Check for required.
+            var field       = splitArg[0];
+            var required    = splitArg[1] === 'true' || splitArg[1] === 't';
+
             //Declare value.
             var value = null;
 
             //Loop through all objects: body, query, params.
             for(var j = 0 ; j < objectsToLookIn.length ; j++){
                 //Search for the value in all sub objects inside req.
-                var curr = lodash.get(req, objectsToLookIn[j] + '.' + args[i]);
+                var curr = lodash.get(req, objectsToLookIn[j] + '.' + field);
 
                 //If a value is found.
                 if(curr) {
                     //If there was a value found in another subobject, throw an error.
                     if(value)
-                        return next(new exports.HTTPError(400, args[i] + ' exists in more than one object'));
+                        return next(new exports.HTTPError(400, field + ' exists in more than one object'));
                     //Assign the found value to the value variable.
                     value = curr;
                 }
             }
-
             //Add a new key, value pair for the found value.
             if(value)
-                req.data[args[i]] = value;
+                req.data[field] = value;
+            //Check if the field is not found and is required.
+            else if(required)
+                return next(new exports.HTTPError(400, field + ' is not found anywhere'));
         }
         next();
     }
