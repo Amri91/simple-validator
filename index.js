@@ -74,10 +74,14 @@ exports.objectifyRequestData       = function(params, areParamsRequired){
             //Declare value.
             var value = null;
 
+            //Declare current value of argument.
+            var curr = null;
+
             //Loop through all objects: body, query, params.
             for(var j = 0 ; j < objectsToLookIn.length ; j++){
-                //Search for the value in all sub objects inside req.
-                var curr = lodash.get(req, objectsToLookIn[j] + '.' + args[i]);
+
+                // Search for the value in all sub objects inside req.
+                curr = getOwnProperty(req[objectsToLookIn[j]], args[i]);
 
                 //If a value is found.
                 if(curr) {
@@ -138,3 +142,9 @@ exports.HTTPError       = function(code, message) {
     this.status = code;
     this.message = message;
 };
+
+function getOwnProperty(obj, property){
+    // To protect against gettings properties in prototype
+    if(obj.hasOwnProperty(property))
+        return lodash.get(obj, property);
+}

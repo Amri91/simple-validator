@@ -91,7 +91,7 @@ describe('#objectifyRequestData Function Integration Testing', function(){
     });//End of it should get the found argument.
     it('Should get the found required argument, and if the argument is not found, it will throw an error', function(done){
         //Mock arguments.
-        var arguments = "bodyArg notRequiredArg queryArg2:true notFoundArg:t";
+        var arguments = "bodyArg notFoundArg";
 
         //Mock response object.
         var res = sinon.spy();
@@ -100,27 +100,27 @@ describe('#objectifyRequestData Function Integration Testing', function(){
         var req = mockReq();
 
         //Get the middleware.
-        var middleware = functions.objectifyRequestData(arguments);
+        var middleware = functions.objectifyRequestData(arguments, true);
 
         //Call middleware.
         middleware(req, res, function(err){
             should.exist(err);
 
             err.status.should.equal(400);
-            err.message.should.equal('Required field: "notFoundArg" is not found anywhere');
+            err.message.should.equal("notFoundArg is not found anywhere");
 
             done();
         });
     });//End of it should get the found required argument.
-    it('Should ignore invalid arguments passed after the colon ":"', function(done){
+    it('Should not fail when using param names that exist in prototype', function(done){
         //Mock arguments.
-        var arguments = "bodyArg:t notRequiredArg:helloWorld queryArg2:invalidThing notFoundArg:f";
+        var arguments = "bodyArg constructor";
 
         //Mock response object.
         var res = sinon.spy();
 
         //Mock request.
-        var req = mockReq();
+        var req = mockReq({"constructor": 1});
 
         //Get the middleware.
         var middleware = functions.objectifyRequestData(arguments);
@@ -128,11 +128,6 @@ describe('#objectifyRequestData Function Integration Testing', function(){
         //Call middleware.
         middleware(req, res, function(err){
             should.not.exist(err);
-
-            req.data.should.deepEqual({
-                    bodyArg: req.body.bodyArg,
-                    queryArg2: req.query.queryArg2
-            });
 
             done();
         });
