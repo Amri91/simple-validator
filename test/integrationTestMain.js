@@ -133,6 +133,27 @@ describe('#objectifyRequestData Function Integration Testing', function(){
         });
     });//Should ignore invalid arguments passed after the colon ":"
 
+    it('Should not fail when using param 0 or false', function(done){
+        //Mock arguments.
+        var arguments = "zero false";
+
+        //Mock response object.
+        var res = sinon.spy();
+
+        //Mock request.
+        var req = mockReq({"zero": 0, "false": false});
+
+        //Get the middleware.
+        var middleware = functions.objectifyRequestData(arguments, true);
+
+        //Call middleware.
+        middleware(req, res, function(err){
+            should.not.exist(err);
+
+            done();
+        });
+    });//Should ignore invalid arguments passed after the colon ":"
+
 });//End of describe Objectify function integration testing.
 
 describe('#inRange function integration testing', function(){
@@ -248,6 +269,46 @@ describe('#toInts function integration testing', function(){
         //Call the middleware.
         middleware(req, res, function(err){
             should.exist(err);
+            done();
+        });
+    });//End of it.
+    it('Should not make body.param = NaN if value was found in query', function(done){
+        //Mock Arguments.
+        var arguments = "num2";
+
+        //Mock req.
+        var req = mockReq(null, {num2: "0102"});
+
+        //Mock res.
+        var res = sinon.spy();
+
+        //Get middleware.
+        var middleware = functions.toInts(arguments);
+
+        //Call the middleware.
+        middleware(req, res, function(err){
+            should.not.exist(err);
+            (req.body.num2 === undefined).should.be.true();
+            done();
+        });
+    });//End of it.
+    it('Should convert both body and query to numbers if they have values', function(done){
+        //Mock Arguments.
+        var arguments = "num2";
+
+        //Mock req.
+        var req = mockReq({num2: "0102"}, {num2: "0102"});
+
+        //Mock res.
+        var res = sinon.spy();
+
+        //Get middleware.
+        var middleware = functions.toInts(arguments);
+
+        //Call the middleware.
+        middleware(req, res, function(err){
+            should.not.exist(err);
+            req.body.num2.should.be.ok();
             done();
         });
     });//End of it.

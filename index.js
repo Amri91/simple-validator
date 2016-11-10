@@ -84,16 +84,16 @@ exports.objectifyRequestData       = function(params, areParamsRequired){
                 curr = getOwnProperty(req[objectsToLookIn[j]], args[i]);
 
                 //If a value is found.
-                if(curr) {
+                if(curr != null) {
                     //If there was a value found in another subobject, throw an error.
-                    if(value)
+                    if(value != null)
                         return next(new exports.HTTPError(400, args[i] + ' exists in more than one object'));
                     //Assign the found value to the value variable.
                     value = curr;
                 }
             }
             //Add a new key, value pair for the found value.
-            if(value) req.data[args[i]] = value;
+            if(value != null) req.data[args[i]] = value;
             //If no value was found for the current key, throw an error.
             else if(areParamsRequired) return next(new exports.HTTPError(400, args[i] + ' is not found anywhere'));
         }
@@ -110,8 +110,12 @@ exports.toInts          = function(params){
     var args = params.split(' ');
     return function(req, res, next) {
         for (var i = 0; i < args.length; i++) {
-            req.query[args[i]] = parseInt(req.query[args[i]]);
-            req.body[args[i]] = parseInt(req.body[args[i]]);
+            if(req.query[args[i]] != null) {
+                req.query[args[i]] = parseInt(req.query[args[i]]);
+            }
+            if(req.body[args[i]] != null) {
+                req.body[args[i]] = parseInt(req.body[args[i]]);
+            }
             if(isNaN(req.query[args[i]]) && isNaN(req.body[args[i]])) return next(new exports.HTTPError(400, args[i] + ' must be an integer'));
         }
         return next();
