@@ -152,3 +152,19 @@ function getOwnProperty(obj, property){
     if(obj.hasOwnProperty(property))
         return lodash.get(obj, property);
 }
+
+/**
+ * Integration with the library expressjs-plus
+ * @param param
+ * @param paramsArray
+ * @param req
+ * @returns {boolean}
+ */
+exports.dataHandler = function(param, paramsArray, req){
+    if(param === 'data'){
+        paramsArray.push(req.data);
+    }else if(req.data.hasOwnProperty(param)){
+        paramsArray.push(param);
+    }else return false;
+    return true;
+};
