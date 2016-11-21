@@ -163,7 +163,7 @@ function getOwnProperty(obj, property){
 exports.dataHandler = function(param, paramsArray, req){
     if(param === 'data'){
         paramsArray.push(req.data);
-    }else if(req.data.hasOwnProperty(param)){
+    }else if(req.data && req.data.hasOwnProperty(param)){
         paramsArray.push(req.data[param]);
     }else return false;
     return true;
