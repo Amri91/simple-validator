@@ -1,6 +1,6 @@
 {
   "name": "simple-express-validator",
-  "version": "4.0.10",
+  "version": "4.0.11",
   "description": "Ready to use validator and helper middlewares for express js.",
   "main": "index.js",
   "scripts": {
