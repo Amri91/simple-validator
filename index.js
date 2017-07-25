@@ -147,9 +147,24 @@ exports.HTTPError       = function(code, message) {
     this.message = message;
 };
 
+// https://stackoverflow.com/a/2631198/2198071
+function checkNested(obj, args) {
+    for (var i = 0; i < args.length; i++) {
+        if (!obj || !obj.hasOwnProperty(args[i])) {
+            return false;
+        }
+        obj = obj[args[i]];
+    }
+    return true;
+}
+
+function hasOwnNestedProperty(obj, propertyPath){
+    return checkNested(obj, propertyPath.split('.'));
+}
+
 function getOwnProperty(obj, property){
     // To protect against gettings properties in prototype
-    if(obj.hasOwnProperty(property))
+    if(hasOwnNestedProperty(obj, property))
         return lodash.get(obj, property);
 }
 
