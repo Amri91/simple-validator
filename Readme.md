@@ -1,5 +1,7 @@
 #Validator for express js
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Amri91/simple-validator.svg)](https://greenkeeper.io/)
+
 This provides basic validation middleware, it will help reduce redundancy in the code.
 
 ##Available methods
